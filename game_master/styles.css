@@ -1,0 +1,12 @@
+#output {
+    height: 30em;
+    width: 90em;
+    color: white;
+    background-color: black;
+    margin: 2em;
+    padding: 1em;
+}
+
+#container{
+    margin: 2em;
+}
