@@ -77,5 +77,134 @@ a=> a*2;
 ```javascript
   "scripts": {
     "build": "babel src -d lib --source-maps"
-  }    ```
+  }   
+```
+
+## Class
+- Can be defined by using the keyword **class**, contains functions and variables.
+- no need to mention function keywords while defining methods.
+- a function named constructor can be created with inputs which will be accessible to entire class.
+```javascript
+//Defining class environment
+class Environment{
+  //Defining constructor
+    constructor(name){
+      //Variable Values
+        this.name = name;
+        this.encounter = new Bear();
+    }
+    //Defining a function
+    stumbleUpon(){
+        var interaction = this.name + "you just stumbled upon ..." + this.encounter.whenEncounter();
+        return interaction;
+    }
+}
+
+```
+
+## Module
+- A file which is used to support a functionality, generally similar functionalities are grouped as a module.
+- export keyword is used to create a module and import keyword is used to use a module. Example for module is given below.
+```javascript
+export class Bear{
+    whenEncounter(){
+        return "grr growl...., you have encountered a bear";
+    }
+}
+
+```
+- Importing can be done using the import keyword example below
+```javascript
+import {Bear} from "./encounter";
+
+export class Environment{
+    constructor(name){
+        this.name = name;
+        this.encounter = new Bear();
+    }
+    
+    stumbleUpon(){
+        var interaction = this.name + "you just stumbled upon ..." + this.encounter.whenEncounter();
+        return interaction;
+    }
+}
+
+```
+- Splitting code in to module will provide better reusability and readability but browser cannot understand multiple modules.
+- To combine all scripts we need a tool called as **browserify** which will combine all the scripts as a single script.
+- to install browserify use command ``` npm install browserify --save-dev ```
+- package.json need to be updated to have a build step to combine browserify and babel compilation.
+```javascript
+"scripts": {
+    "bundle-js":"browserify lib/hello.js > static/hello.js",
+    "build-js": "babel src -d lib --source-maps",
+    "build":"npm run build-js && npm run bundle-js"
+  }
+
+```
+> We can combine multiple build steps in package.json
+
+## Inheritance
+- Inheritance can be used by keyword **extends** when a call extends other class it can display same behavior.
+- The constructor of the extended class can be invoked by calling the keyword super.
+- Always keep the super method at the start of code.
+```javascript
+
+export class Encounter{
+    constructor(introText=""){
+        this.introText = introText;
+    }
+    whenEncounter(){
+        return this.introText;
+    }
+}
+
+
+export class Bear extends Encounter{
+    constructor(){
+        super("grr... growling you have encountered a bear.");
+    }
+}
+
+export class Angel extends Encounter{
+    constructor(){
+        super("Wow!, you encountered an angel it is provide you strength and healing 80%");
+    }
+}
+
+export class Ghost extends Encounter{
+    constructor(){
+        super("Boo!.. you encountered a ghost");
+    }
+}
+
+```
+- Above mentioned example angel, bear and ghost inheriting properties of encounter
+- to import all the classes from this you can use ``` import * as abc from "filelocation"; ``` like ``` import * as abc from "./encounter" ```
+## Collection types
+- Map is used to store key value pairs
+- Set will allow list of values but not duplicates.
+- Weakmap  is like map but will have a key as object type and value will be arbitrarily assigned. They keys will be of only type object.
+- weakset lets you hold weakly held Objects in a collection. In our example here the Object that we want to add to our WeakSet has no reference so it will not be held in the Set
+```javascript
+//Map
+var testMap = new Map();
+testMap.set(s,234);
+console.log(testMap.get(s))// will log 234
+
+//Set
+var testSet = new Set();
+testSet.add("SomeText");
+
+//WeakMap
+var testWeakMap = new WeakMap();
+testWeakMap.set{"sss",{extra:42}}
+var objRef = new Object();
+testWeakMap.set(objRef,{extra:42});
+
+//WeakSet
+var testWeakSet = new WeakSet();
+testWeakSet.add({data:42});
+
+```
 
